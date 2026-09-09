@@ -1,65 +1,163 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#080808" />
   <title>INFINITY ROLE PLAY</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background-color: #ffffff;
-      color: #0d1b2a;
-    }
-    header {
-      background: linear-gradient(90deg, #007bff, #004080);
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.8rem;
-      letter-spacing: 2px;
-    }
-    header p {
-      margin-top: 10px;
-      font-size: 1.2rem;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 25px;
-      background: white;
-      color: #004080;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #cce0ff;
-    }
-    section {
-      padding: 60px 20px;
-      text-align: center;
-    }
-    .info {
-      background-color: #f8faff;
-    }
-    .rules {
-      background-color: #ffffff;
-    }
-    .contact {
-      background-color: #f8faff;
-    }
-    footer {
-      background: #004080;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9rem;
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
+  <div class="page-noise"></div>
+
+  <header class="topbar">
+    <a href="#home" class="brand" aria-label="Infinity Role Play home">
+      <span class="brand-main">INFINITY</span>
+      <span class="brand-sub">ROLE PLAY</span>
+    </a>
+    <nav class="desktop-nav">
+      <a href="#home">HOME</a>
+      <a href="#how">HOW TO PLAY</a>
+      <a href="#faq">FAQ</a>
+      <a href="#download">DOWNLOAD</a>
+    </nav>
+    <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu"><span></span><span></span></button>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-map"></div>
+      <div class="hero-slides" aria-hidden="true">
+        <div class="hero-slide active slide-a"></div>
+        <div class="hero-slide slide-b"></div>
+        <div class="hero-slide slide-c"></div>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content shell">
+        <div class="eyebrow">SA-MP • ANDROID • ROLEPLAY</div>
+        <h1><span>INFINITY</span><span>ROLE PLAY</span></h1>
+        <p>Enter a serious SA-MP roleplay world built for mobile. Create your character, choose your path, build your story and become part of Los Santos.</p>
+        <div class="hero-actions">
+          <button class="pill primary" id="playBtn"><span class="play-icon">▶</span> PLAY FREE</button>
+          <button class="pill ghost" id="copyIpBtn">COPY SERVER IP</button>
+        </div>
+        <div class="server-line"><span class="status-dot"></span><span>SERVER ONLINE</span><strong id="serverIp">51.68.107.75:11999</strong></div>
+        <div class="slider-dots"><button class="dot active" data-slide="0"></button><button class="dot" data-slide="1"></button><button class="dot" data-slide="2"></button></div>
+      </div>
+      <div class="scroll-cue"><span>SCROLL</span><b>⌄</b></div>
+    </section>
+
+    <section class="section story" id="paths">
+      <div class="shell">
+        <div class="eyebrow">CHOOSE YOUR PATH</div>
+        <h2>START YOUR<br><span>STORY</span></h2>
+        <div class="role-grid">
+          <article class="role-card">
+            <div class="role-icon">♟</div><div><h3>CIVILIAN</h3><p>Start from nothing. Find work, buy vehicles, own property and build a life across Los Santos.</p></div>
+          </article>
+          <article class="role-card">
+            <div class="role-icon">♠</div><div><h3>CRIMINAL</h3><p>Join the underworld, build a crew, run risky jobs and create your own reputation in the city.</p></div>
+          </article>
+          <article class="role-card">
+            <div class="role-icon">★</div><div><h3>LSPD OFFICER</h3><p>Protect the streets, respond to incidents, investigate crime and rank up inside the department.</p></div>
+          </article>
+          <article class="role-card">
+            <div class="role-icon">✚</div><div><h3>MEDICAL</h3><p>Join EMS, respond to emergency calls and save lives across San Andreas.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section live-section">
+      <div class="shell">
+        <div class="eyebrow">LIVE DATA</div>
+        <h2>SERVER <span>STATUS</span></h2>
+        <div class="stats-grid">
+          <div class="stat"><b id="onlineCount">1</b><span>ONLINE PLAYERS</span></div>
+          <div class="stat"><b>100</b><span>MAX SLOTS</span></div>
+          <div class="stat"><b>24/7</b><span>UPTIME</span></div>
+        </div>
+        <div class="quick-row">
+          <button class="quick-card" id="playersBtn"><span>◉</span><div><small>LIVE DATA</small><strong>ONLINE PLAYERS</strong></div><b>›</b></button>
+          <button class="quick-card" id="factionsBtn"><span>♜</span><div><small>ROLEPLAY</small><strong>FACTIONS ONLINE</strong></div><b>›</b></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section how" id="how">
+      <div class="shell two-col">
+        <div>
+          <div class="eyebrow">GET READY</div>
+          <h2>HOW TO<br><span>PLAY</span></h2>
+          <p class="section-copy">Install the required SA-MP client, add our server address and create your roleplay character. You can join directly from your Android phone.</p>
+        </div>
+        <div class="steps">
+          <div class="step"><span>01</span><div><h3>DOWNLOAD</h3><p>Get the SA-MP launcher or game package from the download section below.</p></div></div>
+          <div class="step"><span>02</span><div><h3>INSTALL</h3><p>Install the APK and allow the required storage permissions when Android asks.</p></div></div>
+          <div class="step"><span>03</span><div><h3>CONNECT</h3><p>Use <strong>51.68.107.75:11999</strong> as the server address, create a nickname and join.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq">
+      <div class="shell">
+        <div class="eyebrow">FAQ</div>
+        <h2>GOT<br><span>QUESTIONS?</span></h2>
+        <div class="accordion">
+          <button class="faq-item"><span>How do I create an account?</span><b>⌄</b></button><div class="faq-answer">Register through the community/website account page and use the same details where required in the server.</div>
+          <button class="faq-item"><span>Are there rules?</span><b>⌄</b></button><div class="faq-answer">Yes. Roleplay rules apply to every player. Read them before joining and follow staff instructions.</div>
+          <button class="faq-item"><span>Is the server free?</span><b>⌄</b></button><div class="faq-answer">Yes, joining the Infinity Role Play server is free.</div>
+          <button class="faq-item"><span>How do I report a player?</span><b>⌄</b></button><div class="faq-answer">Use the community support/report area and include clear evidence when possible.</div>
+          <button class="faq-item"><span>How do I report a bug?</span><b>⌄</b></button><div class="faq-answer">Use the Bugs Report section so the development team can review it.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section download" id="download">
+      <div class="download-art"></div>
+      <div class="shell download-inner">
+        <div class="eyebrow">TOTALLY FREE</div>
+        <h2>ALWAYS<br><span>FREE</span></h2>
+        <p>Infinity Role Play is built for SA-MP players. Download the launcher, connect to the server and start your own story.</p>
+        <a class="pill primary download-btn" href="#" id="downloadBtn"><span class="play-icon">↓</span> DOWNLOAD APK</a>
+        <div class="download-note">APK download link can be changed in <code>script.js</code>.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <div class="socials"><a href="#">◉</a><a href="#">◎</a><a href="#">▶</a></div>
+      <p>© 2026 INFINITY ROLE PLAY. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <button class="floating-menu" id="floatingMenuBtn" aria-label="Quick menu"><span></span><span></span><span></span></button>
+  <div class="quick-menu" id="quickMenu">
+    <button data-action="login"><span>♙</span> LOGIN</button>
+    <button data-action="factions"><span>♟</span> FACTIONS ONLINE</button>
+    <button data-action="players"><span>♙</span> ONLINE PLAYERS</button>
+    <button data-action="achievements"><span>★</span> ACHIEVEMENTS</button>
+    <button data-action="options"><span>⚙</span> OPTIONS</button>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#home">HOME</a><a href="#how">HOW TO PLAY</a><a href="#faq">FAQ</a><a href="#download">DOWNLOAD</a>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">×</button>
+      <div class="eyebrow" id="modalEyebrow">LIVE DATA</div>
+      <h3 id="modalTitle">ONLINE PLAYERS</h3>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied</div>
+  <script src="script.js"></script>
+</body>
+</html>
