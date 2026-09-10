@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinity RP | Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+<div class="bg-grid"></div>
+<header class="nav"><a class="brand" href="index.html"><span class="logo-mark">∞</span>INFINITY <b>ADMIN</b></a><a class="btn small ghost" href="index.html">← Website</a></header>
+
+<main class="section admin-main">
+  <section id="adminLoginCard" class="card narrow">
+    <span class="eyebrow">SECURE ACCESS</span>
+    <h2>Admin Login</h2>
+    <p>Login with your admin username and password.</p>
+
+    <form id="adminLoginForm" class="auth-form">
+      <label>Username
+        <input required type="text" name="username" autocomplete="username" placeholder="Admin">
+      </label>
+
+      <label>Password
+        <input required type="password" name="password" autocomplete="current-password" placeholder="••••••••">
+      </label>
+
+      <button class="btn primary" type="submit">Login</button>
+    </form>
+
+    <p id="adminLoginStatus"></p>
+  </section>
+
+  <div id="adminDashboard" class="hidden">
+    <div class="admin-top">
+      <div><span class="eyebrow">CONTROL CENTER</span><h1>Infinity RP Admin</h1></div>
+      <button id="adminLogout" class="btn ghost">Logout</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="card stat"><small>Pending</small><strong id="pendingCount">0</strong></div>
+      <div class="card stat"><small>Accepted</small><strong id="acceptedCount">0</strong></div>
+      <div class="card stat"><small>Rejected</small><strong id="rejectedCount">0</strong></div>
+      <div class="card stat"><small>Users</small><strong id="userCount">0</strong></div>
+    </div>
+
+    <section class="card admin-section">
+      <h2>Server & Download Settings</h2>
+      <p>Paste direct/external download links here. Users will open these links from the website download buttons.</p>
+      <form id="serverSettingsForm" class="form-grid">
+        <label class="full">Server IP
+          <input id="adminServerIp" required placeholder="51.68.107.75:11999">
+        </label>
+        
+    <label class="full">Server Logo Image Link
+      <input id="serverLogoUrl" type="url" placeholder="https://example.com/server-logo.png">
+      <small>This changes the Infinity logo shown in the website header/navigation.</small>
+    </label>
+
+    <div class="hero-banner-admin-fields full">
+      <h3>Hero Banner Image Links</h3>
+
+      <label class="full">Hero Banner 1
+        <input id="heroBanner1" type="url" placeholder="https://example.com/hero-1.jpg">
+      </label>
+
+      <label class="full">Hero Banner 2
+        <input id="heroBanner2" type="url" placeholder="https://example.com/hero-2.jpg">
+      </label>
+
+      <label class="full">Hero Banner 3
+        <input id="heroBanner3" type="url" placeholder="https://example.com/hero-3.jpg">
+      </label>
+
+      <small>These 3 images auto-slide behind WELCOME TO INFINITY ROLE PLAY.</small>
+    </div>
+
+    
+<label class="full">Home Middle Banner Image Link
+      <input id="communityBannerUrl" type="url" placeholder="https://example.com/infinity-banner.jpg">
+      <small>This replaces the INFINITY RP card shown above Server Rules.</small>
+    </label>
+    <label class="full">Banner Click Link (Optional)
+      <input id="communityBannerClickUrl" type="url" placeholder="https://discord.gg/...">
+      <small>When users tap the banner, this link will open. Leave empty if not needed.</small>
+    </label>
+
+    <label>SAMP APK Download Link
+          <input id="sampUrl" type="url" placeholder="https://example.com/samp.apk">
+        </label>
+        <label>Infinity Data File Download Link
+          <input id="dataUrl" type="url" placeholder="https://example.com/infinity-data.zip">
+        </label>
+        <div class="full">
+          <button class="btn primary">Save Server & Download Links</button>
+          <span id="settingsStatus"></span>
+        </div>
+      </form>
+    </section>
+
+    <section class="card admin-section">
+      <div class="section-row"><h2>Server Rules</h2><button id="addRuleBtn" class="btn small primary" type="button">+ Add Rule</button></div>
+      <div id="rulesAdmin"></div>
+    </section>
+
+    
+    <section class="card admin-section">
+      <div class="section-row">
+        <div>
+          <h2>User Management</h2>
+          <p>View Infinity IDs and ban or unban users.</p>
+        </div>
+        <input id="userSearch" class="admin-user-search" placeholder="Search name, email or INF ID">
+      </div>
+      <div id="usersManagementList" class="users-management-list"></div>
+    </section>
+
+
+
+    
+<section class="card admin-section">
+  <div class="section-row">
+    <div>
+      <h2>Live Player Count</h2>
+      <p>Show or hide the Live Server Status / Player Count card on the Home page.</p>
+    </div>
+    <span id="liveCountToggleBadge" class="status-pill">Loading</span>
+  </div>
+
+  <label class="full apply-checkbox">
+    <input id="livePlayerCountEnabled" type="checkbox" checked>
+    <span>Live Player Count is ON</span>
+  </label>
+
+  <div class="full">
+    <button id="saveLivePlayerCountToggle" class="btn primary" type="button">Save Live Count</button>
+    <span id="livePlayerCountToggleStatus"></span>
+  </div>
+</section>
+
+<section class="card admin-section">
+      <div class="section-row">
+        <div>
+          <h2>Server Release Countdown</h2>
+          <p>Set the server release date and time shown on the Home page.</p>
+        </div>
+      </div>
+
+      <form id="releaseCountdownForm" class="form-grid">
+        <label class="full">Release Date & Time
+          <input id="releaseDateTime" type="datetime-local" required>
+        </label>
+        <label class="full apply-checkbox">
+          <input id="releaseCountdownEnabled" type="checkbox" checked>
+          <span>Show countdown on Home page</span>
+        </label>
+        <div class="full">
+          <button class="btn primary" type="submit">Save Countdown</button>
+          <span id="releaseCountdownStatus"></span>
+        </div>
+      </form>
+    </section>
+
+    <section class="card admin-section">
+      <div class="section-row">
+        <div>
+          <h2>Server Admin Team</h2>
+          <p>Add or edit the admins shown on the public Server Admins page.</p>
+        </div>
+        <a class="btn small ghost" href="admins.html" target="_blank">View Page</a>
+      </div>
+
+      <form id="serverAdminForm" class="form-grid server-admin-form">
+        <input type="hidden" id="serverAdminEditId">
+        <label>Server Username
+          <input id="serverAdminServerName" required placeholder="e.g. Infinity_Kavishka">
+        </label>
+        <label>Real Name
+          <input id="serverAdminRealName" required placeholder="e.g. Kavishka Gimhan">
+        </label>
+        <label>Phone Number
+          <input id="serverAdminPhone" type="tel" placeholder="e.g. 0771234567">
+        </label>
+        <label>Rank / Role
+          <input id="serverAdminRank" placeholder="e.g. Head Admin">
+        </label>
+        <label class="full">Admin Photo Link
+          <input id="serverAdminPhotoURL" type="url" placeholder="https://example.com/admin-photo.jpg">
+          <small>Paste a direct image link here.</small>
+        </label>
+        <label class="full">Or Upload Admin Photo
+          <input id="serverAdminPhoto" type="file" accept="image/jpeg,image/png,image/webp">
+          <small>Optional. JPG, PNG or WEBP. Maximum 5 MB.</small>
+        </label>
+        <label>Display Order
+          <input id="serverAdminOrder" type="number" min="0" value="0">
+        </label>
+        <div class="full server-admin-form-actions">
+          <button id="saveServerAdminBtn" class="btn primary" type="submit">Add Server Admin</button>
+          <button id="cancelServerAdminEdit" class="btn ghost hidden" type="button">Cancel Edit</button>
+          <span id="serverAdminStatus"></span>
+        </div>
+      </form>
+
+      <div id="serverAdminsAdminList" class="server-admins-admin-list"></div>
+    </section>
+
+
+    <section class="card admin-section">
+      <div class="section-row">
+        <div>
+          <h2>Whitelist Form Access</h2>
+          <p>Lock or unlock the public Whitelist Application form.</p>
+        </div>
+        <span id="whitelistAccessBadge" class="status-pill">Loading</span>
+      </div>
+      <label class="full apply-checkbox">
+        <input id="whitelistApplicationsOpen" type="checkbox">
+        <span>Whitelist applications are OPEN</span>
+      </label>
+      <button id="saveWhitelistAccessBtn" class="btn primary" type="button">Save Whitelist Access</button>
+      <span id="whitelistAccessStatus"></span>
+    </section>
+
+<section class="card admin-section"><div class="section-row"><div><h2>Admin Application Background</h2><p>Set the background image on the Admin Application page.</p></div></div><label class="full">Background Image Link<input id="adminApplyBackgroundURL" type="url" placeholder="https://example.com/background.jpg"></label><div class="full"><button id="saveAdminApplyBackgroundBtn" class="btn primary" type="button">Save Background</button><span id="adminApplyBackgroundStatus"></span></div></section><section class="card admin-section"><div class="section-row"><div><h2>Admin Applications</h2><p>Review player applications for the server admin team.</p></div>
+<select id="filterAdminApps"><option>All</option><option>Pending</option><option>Accepted</option><option>Rejected</option></select></div>
+<div id="adminApplicationsList" class="applications-list"></div></section>
+    <section class="card admin-section">
+      <div class="section-row"><h2>Whitelist Applications</h2><select id="filterApps"><option value="all">All</option><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="rejected">Rejected</option></select></div>
+      <div id="applicationsList" class="applications-list"></div>
+    </section>
+
+    <section class="card admin-section">
+      <div class="section-row"><section class="card admin-section"><div class="section-row"><div><h2>Live Chat User Mute</h2><p>Mute or unmute registered users from Live Chat.</p></div></div><div id="chatMuteUsersList" class="server-admins-admin-list"></div></section><h2>Live Chat Moderation</h2><button id="clearAllChatBtn" class="btn danger small" type="button">Clear Live Chat</button></div>
+      <p>Messages from this admin account will automatically display a verified blue badge on the public chat.</p>
+      <div id="adminChatMessages" class="chat-messages admin-chat"></div>
+      <form id="adminChatForm" class="chat-form"><input id="adminChatInput" maxlength="300" placeholder="Reply as verified admin..."><button class="btn primary">Send</button></form>
+    </section>
+  </div>
+
+<section class="card admin-section">
+  <div class="section-row">
+    <div>
+      <h2>Download Links</h2>
+      <p>Set direct external download links for the SAMP app and Infinity data file.</p>
+    </div>
+  </div>
+  <div class="form-grid">
+    <label class="full">SAMP App Download Link
+      <input id="sampDownloadUrl" type="url" placeholder="https://example.com/samp.apk">
+    </label>
+    <label class="full">Data File Download Link
+      <input id="dataDownloadUrl" type="url" placeholder="https://example.com/data.zip">
+    </label>
+    <div class="full">
+      <button id="saveDownloadLinksBtn" class="btn primary" type="button">Save Download Links</button>
+      <span id="downloadLinksStatus"></span>
+    </div>
+  </div>
+</section>
+
+<section class="card admin-section"><div class="section-row"><div><h2>Server Gallery & Trailer</h2><p>Add 5 server photo links and one trailer photo.</p></div></div><div class="form-grid"><label class="full">Gallery Photo 1<input id="galleryImage1" type="url" placeholder="https://example.com/photo1.jpg"></label><label class="full">Gallery Photo 2<input id="galleryImage2" type="url" placeholder="https://example.com/photo2.jpg"></label><label class="full">Gallery Photo 3<input id="galleryImage3" type="url" placeholder="https://example.com/photo3.jpg"></label><label class="full">Gallery Photo 4<input id="galleryImage4" type="url" placeholder="https://example.com/photo4.jpg"></label><label class="full">Gallery Photo 5<input id="galleryImage5" type="url" placeholder="https://example.com/photo5.jpg"></label><label class="full">Trailer Photo Link<input id="trailerPhotoUrl" type="url" placeholder="https://example.com/trailer.jpg"></label><div class="full"><button id="saveGalleryTrailerBtn" class="btn primary" type="button">Save Gallery & Trailer</button><span id="galleryTrailerStatus"></span></div></div></section></main>
+
+<script src="firebase-config.js"></script>
+<script src="site-brand.js"></script><script src="admin.js"></script>
+<script src="notifications.js"></script>
+</body>
+</html>
