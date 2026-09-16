@@ -13,8 +13,15 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+<script data-early-security src="security.js"></script>
+  <script src="maintenance.js"></script>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <script defer src="/pwa.js"></script>
 </head>
-<body class="nexora-blue-home">
+<body class="nexora-blue-home" oncontextmenu="return false">
   <header class="nav">
     <a href="#home" class="brand">
       <span class="logo-mark">∞</span>
@@ -28,6 +35,8 @@
       <a href="#gallery">GALLERY</a>
       <a href="admins.html">ADMINS</a>
       <a href="admin-apply.html">ADMIN APPLY</a>
+      <a href="redeem.html">REDEEM CODE</a>
+      <a href="vehicle-shop.html">VEHICLE SHOP</a>
       <a class="btn small ghost" id="loginNavBtn" href="login.html">LOGIN</a>
       <a class="btn small primary" id="registerNavBtn" href="Register.html">REGISTER</a>
       <a id="profileIconBtn" class="profile-icon-btn hidden" href="profile.html" title="My Profile" aria-label="My Profile">
@@ -36,7 +45,8 @@
       </a>
       <button class="btn small ghost hidden" id="logoutNavBtn">LOGOUT</button>
       <a class="btn small admin-link" href="admin.html">ADMIN</a>
-    </nav>
+    <a href="vip.html">VIP MEMBERSHIP</a>
+</nav>
   </header>
 
   <main>
@@ -49,21 +59,21 @@
       <div class="hero-banner-overlay" aria-hidden="true"></div>
 
       <div class="hero-copy">
-        <span class="nex-kicker">INFINITY ROLEPLAY</span>
-        <h1>JOIN THE<br><span>INFINITY</span><br>COMMUNITY</h1>
-        <p>Build your character, follow the city rules and create your own story in our Sri Lankan SA-MP roleplay community.</p>
+        <span class="nex-kicker nx-reveal nx-delay-1">INFINITY ROLEPLAY</span>
+        <h1 class="nx-reveal nx-delay-2">WELCOME TO<br><span>INFINITY</span><br>ROLE PLAY</h1>
+        <p class="nx-reveal nx-delay-3">Build your character, follow the city rules and create your own story in our Sri Lankan SA-MP roleplay community.</p>
 
-        <div class="hero-actions">
-          <a class="nex-pill-btn" href="whitelist.html">● &nbsp; JOIN NOW</a>
+        <div class="hero-actions nx-reveal nx-delay-4">
+          <a class="nex-pill-btn" href="whitelist.html">● &nbsp; WHITELIST APPLY</a>
           <button class="nex-text-btn" id="copyIpBtn">COPY SERVER IP →</button>
         </div>
 
-        <div class="hero-server-line">
+        <div class="hero-server-line nx-reveal nx-delay-5">
           <span class="online-dot"></span>
           <div>
             <small>SERVER ADDRESS</small>
-            <strong id="serverIpText">51.68.107.75:11999</strong>
-            <span id="serverIp" class="visually-hidden">51.68.107.75:11999</span>
+            <strong id="serverIpText">148.113.8.119:26000</strong>
+            <span id="serverIp" class="visually-hidden">148.113.8.119:26000</span>
           </div>
           <button id="serverIpCopyBtn" class="mini-copy" type="button">COPY</button>
         </div>
@@ -129,7 +139,7 @@
           </div>
           <div class="live-server-stats">
             <div class="live-stat"><span>PLAYERS ONLINE</span><strong><span id="livePlayerCount">--</span> / <span id="liveMaxPlayers">--</span></strong></div>
-            <div class="live-stat"><span>SERVER IP</span><strong>51.68.107.75:11999</strong></div>
+            <div class="live-stat"><span>SERVER IP</span><strong>148.113.8.119:26000</strong></div>
             <div class="live-stat"><span>GAME MODE</span><strong id="liveGameMode">Loading...</strong></div>
           </div>
           <p id="liveServerStatusText">Checking server...</p>
@@ -265,5 +275,44 @@
     });
   })();
   </script>
+
+<script>
+(function(){
+  const revealEls = document.querySelectorAll(
+    '.path-card,.nex-section-title,.character-copy,.character-mark,.rule-card,'+
+    '.live-server-status-card,.release-countdown-card,.download-nex-card,'+
+    '.community-banner-card,.server-gallery-slider,.trailer-photo-card,.faq-section details'
+  );
+  revealEls.forEach((el,i)=>{
+    el.classList.add('nx-scroll-reveal');
+    el.style.setProperty('--nx-delay', Math.min((i%4)*80,240)+'ms');
+  });
+
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('nx-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:.12,rootMargin:'0px 0px -35px 0px'});
+    revealEls.forEach(el=>io.observe(el));
+  }else{
+    revealEls.forEach(el=>el.classList.add('nx-visible'));
+  }
+
+  // subtle parallax/zoom feel on active hero image
+  const hero=document.getElementById('homeHero');
+  if(hero){
+    window.addEventListener('scroll',()=>{
+      const y=Math.min(window.scrollY,700);
+      hero.style.setProperty('--hero-shift',(y*.08)+'px');
+    },{passive:true});
+  }
+})();
+</script>
+
+<script src="security.js"></script>
 </body>
 </html>
