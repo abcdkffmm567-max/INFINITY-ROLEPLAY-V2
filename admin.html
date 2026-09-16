@@ -10,8 +10,15 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+<script data-early-security src="security.js"></script>
+  <script src="maintenance.js"></script>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <script defer src="/pwa.js"></script>
 </head>
-<body>
+<body oncontextmenu="return false">
 <div class="bg-grid"></div>
 <header class="nav"><a class="brand" href="index.html"><span class="logo-mark">∞</span>INFINITY <b>ADMIN</b></a><a class="btn small ghost" href="index.html">← Website</a></header>
 
@@ -37,24 +44,12 @@
   </section>
 
   <div id="adminDashboard" class="hidden">
-    <div class="admin-top">
-      <div><span class="eyebrow">CONTROL CENTER</span><h1>Infinity RP Admin</h1></div>
-      <button id="adminLogout" class="btn ghost">Logout</button>
-    </div>
-
-    <div class="stats-grid">
-      <div class="card stat"><small>Pending</small><strong id="pendingCount">0</strong></div>
-      <div class="card stat"><small>Accepted</small><strong id="acceptedCount">0</strong></div>
-      <div class="card stat"><small>Rejected</small><strong id="rejectedCount">0</strong></div>
-      <div class="card stat"><small>Users</small><strong id="userCount">0</strong></div>
-    </div>
-
-    <section class="card admin-section">
+<section class="card admin-section dashboard-only-section">
       <h2>Server & Download Settings</h2>
       <p>Paste direct/external download links here. Users will open these links from the website download buttons.</p>
       <form id="serverSettingsForm" class="form-grid">
         <label class="full">Server IP
-          <input id="adminServerIp" required placeholder="51.68.107.75:11999">
+          <input id="adminServerIp" required placeholder="148.113.8.119:26000">
         </label>
         
     <label class="full">Server Logo Image Link
@@ -101,6 +96,119 @@
           <span id="settingsStatus"></span>
         </div>
       </form>
+    </section>
+
+
+
+
+<section class="card admin-section"><div class="section-row"><div><h2>Server Gallery & Trailer</h2><p>Add 5 server photo links and one trailer photo.</p></div></div><div class="form-grid"><label class="full">Gallery Photo 1<input id="galleryImage1" type="url" placeholder="https://example.com/photo1.jpg"></label><label class="full">Gallery Photo 2<input id="galleryImage2" type="url" placeholder="https://example.com/photo2.jpg"></label><label class="full">Gallery Photo 3<input id="galleryImage3" type="url" placeholder="https://example.com/photo3.jpg"></label><label class="full">Gallery Photo 4<input id="galleryImage4" type="url" placeholder="https://example.com/photo4.jpg"></label><label class="full">Gallery Photo 5<input id="galleryImage5" type="url" placeholder="https://example.com/photo5.jpg"></label><label class="full">Trailer Photo Link<input id="trailerPhotoUrl" type="url" placeholder="https://example.com/trailer.jpg"></label><div class="full"><button id="saveGalleryTrailerBtn" class="btn primary" type="button">Save Gallery & Trailer</button><span id="galleryTrailerStatus"></span></div></div></section>
+
+    <div class="admin-top">
+      <div><span class="eyebrow">CONTROL CENTER</span><h1>Infinity RP Admin</h1></div>
+      <button id="adminLogout" class="btn ghost">Logout</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="card stat"><small>Pending</small><strong id="pendingCount">0</strong></div>
+      <div class="card stat"><small>Accepted</small><strong id="acceptedCount">0</strong></div>
+      <div class="card stat"><small>Rejected</small><strong id="rejectedCount">0</strong></div>
+      <div class="card stat"><small>Users</small><strong id="userCount">0</strong></div>
+    </div>
+
+
+    <section class="card admin-section admin-account-settings">
+      <div class="section-row">
+        <div>
+          <h2>Admin Login Settings</h2>
+          <p>Change the username and password used to login to this Admin Panel.</p>
+        </div>
+        <span id="adminAccountBadge" class="status-pill accepted">SECURE</span>
+      </div>
+
+      <form id="adminAccountForm" class="form-grid">
+        <label class="full">Admin Username
+          <input id="adminAccountUsername" type="text" autocomplete="username" placeholder="infinityadmin" required>
+          <small>This login username maps internally to @infinityrp.com.</small>
+        </label>
+
+        <label class="full">New Admin Password
+          <input id="adminAccountPassword" type="password" autocomplete="new-password" placeholder="Leave blank to keep current password">
+          <small>Leave this empty if you only want to change the username.</small>
+        </label>
+
+        <div class="full">
+          <button class="btn primary" type="submit">Save Admin Login</button>
+          <span id="adminAccountStatus"></span>
+        </div>
+      </form>
+    </section>
+
+
+    
+
+    <section class="card admin-section vehicle-shop-admin-section">
+      <div class="section-row">
+        <div><h2>Vehicle Shop</h2><p>Add vehicles that players can buy with eCoin. Purchases are queued and automatically delivered to the linked SA-MP account after the configured delay.</p></div>
+        <button id="refreshVehicleShopBtn" class="btn ghost small" type="button">Refresh</button>
+      </div>
+      <div class="vehicle-delivery-settings card-subsection">
+        <div><h3>Vehicle Delivery Time</h3><p>Set how long a purchased vehicle waits before it is added to the player's SA-MP account. Default: 3 hours.</p></div>
+        <div class="form-grid">
+          <label>Delivery Delay (Hours)<input id="adminVehicleDeliveryHours" type="number" min="0" max="168" step="0.25" value="3"></label>
+          <div class="full"><button id="saveVehicleDeliveryDelayBtn" class="btn primary" type="button">Save Delivery Time</button> <span id="adminVehicleDeliveryStatus"></span></div>
+        </div>
+      </div>
+      <form id="vehicleShopAdminForm" class="form-grid">
+        <label>Vehicle Name<input id="adminVehicleName" maxlength="60" placeholder="Infernus" required></label>
+        <label>SA-MP Model ID<input id="adminVehicleModelId" type="number" min="400" max="611" placeholder="411" required></label>
+        <label>eCoin Price<input id="adminVehicleEcoinPrice" type="number" min="1" value="500" required></label>
+        <label>Sort Order<input id="adminVehicleSort" type="number" value="0"></label>
+        <label class="full">Vehicle Image URL<input id="adminVehicleImage" type="url" placeholder="https://example.com/infernus.png"></label>
+        <label class="full">Description<textarea id="adminVehicleDescription" rows="3" maxlength="300" placeholder="Fast sports car for city driving."></textarea></label>
+        <div class="full"><button class="btn primary" type="submit">Add Vehicle</button><span id="adminVehicleShopStatus"></span></div>
+      </form>
+      <div id="adminVehicleShopList" class="vehicle-admin-list"></div>
+      <div class="section-row vehicle-purchases-head"><div><h3>Recent Vehicle Purchases</h3><p>Players who bought vehicles using eCoin.</p></div><button id="refreshVehiclePurchasesBtn" class="btn ghost small" type="button">Refresh Purchases</button></div>
+      <div id="adminVehiclePurchasesList"></div>
+    </section>
+
+    <section class="card admin-section redeem-admin-section">
+      <div class="section-row">
+        <div><h2>Redeem Codes</h2><p>Create eCoin codes for players. Codes now give eCoin only; players can convert eCoin to server cash later at $10 per eCoin.</p></div>
+        <button id="refreshRedeemCodesBtn" class="btn ghost small" type="button">Refresh</button>
+      </div>
+      <form id="redeemCodeAdminForm" class="form-grid">
+        <label>Redeem Code
+          <input id="adminRedeemCode" maxlength="32" placeholder="INFINITY-100">
+          <small>Leave empty to generate a code automatically.</small>
+        </label>
+        <label>eCoin Reward
+          <input id="adminRedeemEcoin" type="number" min="1" max="1000000" value="100" required>
+        </label>
+        <label>Cash Value When Converted
+          <input id="adminRedeemCashPreview" value="$1,000" readonly>
+        </label>
+        <label>Max Uses
+          <input id="adminRedeemMaxUses" type="number" min="1" max="100000" value="1" required>
+        </label>
+        <label class="full">Expiry Date & Time (Optional)
+          <input id="adminRedeemExpires" type="datetime-local">
+        </label>
+        <div class="full">
+          <button class="btn primary" type="submit">Create Redeem Code</button>
+          <span id="adminRedeemStatus"></span>
+        </div>
+      </form>
+      <div id="adminRedeemCodesList" class="redeem-admin-list"></div>
+
+      <div class="redeem-claims-head section-row">
+        <div>
+          <h3>Redeemed Players</h3>
+          <p>Players who successfully used a redeem code and received eCoin. Cash is only added later when the player converts eCoin.</p>
+        </div>
+        <button id="refreshRedeemClaimsBtn" class="btn ghost small" type="button">Refresh Claims</button>
+      </div>
+      <div id="adminRedeemClaimsList" class="redeem-claims-admin-list"></div>
     </section>
 
     <section class="card admin-section">
@@ -214,6 +322,22 @@
     <section class="card admin-section">
       <div class="section-row">
         <div>
+          <h2>Admin Application Access</h2>
+          <p>Lock or unlock the public Admin Application page.</p>
+        </div>
+        <span id="adminApplyAccessBadge" class="status-pill">Loading</span>
+      </div>
+      <label class="full apply-checkbox">
+        <input id="adminApplicationsOpen" type="checkbox">
+        <span>Admin applications are OPEN</span>
+      </label>
+      <button id="saveAdminApplyAccessBtn" class="btn primary" type="button">Save Admin Apply Access</button>
+      <span id="adminApplyAccessStatus"></span>
+    </section>
+
+    <section class="card admin-section">
+      <div class="section-row">
+        <div>
           <h2>Whitelist Form Access</h2>
           <p>Lock or unlock the public Whitelist Application form.</p>
         </div>
@@ -243,31 +367,13 @@
     </section>
   </div>
 
-<section class="card admin-section">
-  <div class="section-row">
-    <div>
-      <h2>Download Links</h2>
-      <p>Set direct external download links for the SAMP app and Infinity data file.</p>
-    </div>
-  </div>
-  <div class="form-grid">
-    <label class="full">SAMP App Download Link
-      <input id="sampDownloadUrl" type="url" placeholder="https://example.com/samp.apk">
-    </label>
-    <label class="full">Data File Download Link
-      <input id="dataDownloadUrl" type="url" placeholder="https://example.com/data.zip">
-    </label>
-    <div class="full">
-      <button id="saveDownloadLinksBtn" class="btn primary" type="button">Save Download Links</button>
-      <span id="downloadLinksStatus"></span>
-    </div>
-  </div>
-</section>
 
-<section class="card admin-section"><div class="section-row"><div><h2>Server Gallery & Trailer</h2><p>Add 5 server photo links and one trailer photo.</p></div></div><div class="form-grid"><label class="full">Gallery Photo 1<input id="galleryImage1" type="url" placeholder="https://example.com/photo1.jpg"></label><label class="full">Gallery Photo 2<input id="galleryImage2" type="url" placeholder="https://example.com/photo2.jpg"></label><label class="full">Gallery Photo 3<input id="galleryImage3" type="url" placeholder="https://example.com/photo3.jpg"></label><label class="full">Gallery Photo 4<input id="galleryImage4" type="url" placeholder="https://example.com/photo4.jpg"></label><label class="full">Gallery Photo 5<input id="galleryImage5" type="url" placeholder="https://example.com/photo5.jpg"></label><label class="full">Trailer Photo Link<input id="trailerPhotoUrl" type="url" placeholder="https://example.com/trailer.jpg"></label><div class="full"><button id="saveGalleryTrailerBtn" class="btn primary" type="button">Save Gallery & Trailer</button><span id="galleryTrailerStatus"></span></div></div></section></main>
+
+</main>
 
 <script src="firebase-config.js"></script>
 <script src="site-brand.js"></script><script src="admin.js"></script>
 <script src="notifications.js"></script>
+<script src="security.js"></script>
 </body>
 </html>
